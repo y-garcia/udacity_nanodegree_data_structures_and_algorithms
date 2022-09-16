@@ -1,25 +1,27 @@
-# [Project name]
+# Udacity Data Structures & Algorithms Nanodegree
 
-[Project description]
+This project contains my solutions to the exercises of 
+[Udacity's Data Structure & Algorithms Nanodegree](https://www.udacity.com/course/data-structures-and-algorithms-nanodegree--nd256) 
 
 ## Prerequisites
 
-- [dependecy]
+ - Python
 
 ## Installation
 
 ```bash
-git clone https://github.com/y-garcia/[repository]
-cd [repository]
+git clone https://github.com/y-garcia/udacity_nanodegree_data_structures_and_algorithms
+cd udacity_nanodegree_data_structures_and_algorithms
 ```
 
 ## Usage
 
-Coming soon...
+Run python scripts, e.g. `python project1/Task0.py`
 
 ## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+This project is for learning purposes, so contributing is not desired at the moment.
+You may fork this project and build upon it on your profile if you wish.
 
 ## Versioning
 
