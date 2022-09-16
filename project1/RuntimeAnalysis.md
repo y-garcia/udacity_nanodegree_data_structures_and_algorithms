@@ -49,3 +49,24 @@ Here we have two methods:
     `O(n log n)` behaves worse than `O(n)` for large values. 
 
  2. `get_local_calls_from_bangalore(calls_list)`
+
+    In this second method we iterate through the calls list. Inside the loop we set some
+    variables, check some conditions and increase some variables by one, all of which have
+    a constant time complexity. Afterwards we make a simple mathematical operation. Hence,
+    the time complexity of this method is `O(n)`, since it depends primarily on the size
+    of the calls list.
+
+# Task 4
+
+In this task we make two iterations. Inside both loops we compute simple constant operations
+so their effect on the overall time complexity can be neglected. The first loop iterates as 
+many times as the maximum number of items of either the texts list or the calls list, whichever
+is longer. The second loop iterates through the calls list. Assuming the calls list is 
+longer and contains n items, both this loops would take `O(n)` to complete.
+
+After that, we sort the list of telemarketers, which has been filled throughout above loops.
+Assuming the worst case that all outgoing numbers are telemarketers, the sorting would take
+`O(n log n)` using **timsort**.
+
+The worst-case time complexity of this method is hence `O(n log n)`, since
+`O(n log n)` behaves worse than `O(n)` for large values. 
