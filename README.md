@@ -32,10 +32,7 @@ See the [CHANGELOG.md](CHANGELOG.md) file for details.
 
 ## Authors
 
-* **Yeray García Quintana** - Initial work - [y-garcia](https://github.com/y-garcia)
-
-See also the list of [contributors](https://github.com/y-garcia/[repository]/contributors) who participated in this 
-project.
+* **Yeray García Quintana** | [y-garcia](https://github.com/y-garcia)
 
 ## License
 
