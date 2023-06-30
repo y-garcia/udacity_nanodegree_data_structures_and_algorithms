@@ -2,32 +2,44 @@
 
 # Overall approach
 In order to store and retrieve a value by its key in constant time, I have decided to use
-a dictionary (hash map) as the internal data structure for the cache data.
+a **dictionary** (hash map) as the internal data structure for the **cache** data.
 
-Each entry in the dictionary can be retrieved by its key, and it contains yet another
-dictionary with two pieces of information: the value stored under that key, plus the
-order in which the value was used (that is, set or retrieved). See following example:
+To keep track of the order in which the elements have been used, I am using a **queue**
+implemented as a **DoublyLinkedList**. This allows me to add recently used elements at the
+beginning and removing the least used element at the end of the queue in constant time.
 
-```
-cache = {
-#   'key': {'value': number, 'used_order': number},
-    '100': {'value': 10, 'used_order': 2},
-    '200': {'value': 20, 'used_order': 3},
-    '300': {'value': 30, 'used_order': 1}
-}
-```
+To avoid iterating through the DoublyLinkedList to move an element to the head after being 
+used, I add a reference to the node to the cache under its key. So retrieving a Node in
+the DoublyLinkedList, as well as inserting it to its head, is a constant time operation.
 
-The usage order helps to decide which value was used the longest ago (key 300 above), in 
-order to delete it when adding a new value when the cache has reached its maximum capacity.
+## Space complexity
+If we define `n` as all possible (key, value) pairs that can be added to the cache, we see
+that the cache (hash map) as well as the queue (DoublyLinkedList) are always at most as
+long as the cache capacity, meaning that its independent of `n`.
+
+So the overall **space complexity** is `O(1)`.
 
 # Detailed explanation
-## get(key)
-This method checks first whether the key exists. In that case, it increases its `used_order` 
-and returns the value afterwards. If the key doesn't exist, or it is `None`, `-1` will be 
-returned.
+## LRU_Cache.get(key)
+This method checks first whether the key exists. In that case, it moves the corresponding
+node in the queue to the head, as it is now the most recently used key. Afterwards the value
+is returned. If the key doesn't exist, `-1` will be returned.
 
-Checking key existence, storing the new `used_order` and retrieving its value are all 
+### Time complexity
+Checking key existence, moving the node to the head and returning its value are all 
 operations that require constant time, so the overall **time complexity** is `O(1)` 
 
-## set(key, value)
-This method checks first whether the cache is at capacity. In that case
+## LRU_Cache.set(key, value)
+After checking that the key is not `None` and it exists, this method checks whether the cache 
+is at capacity. In that case the method `remove_oldest()` is called, which removes the tail
+from the queue and removes the key and its content from the cache.
+
+Afterwards a new node is added to the head of the queue, as it is now the most recently used
+key and added to the cache under its key.
+
+### Time complexity
+Checking key existence, removing the last element in the queue, and adding a new element to
+the head of the queue and to the cache are all operations that require constant time, since
+no iteration is required.
+
+So the overall **time complexity** is `O(1)`.
