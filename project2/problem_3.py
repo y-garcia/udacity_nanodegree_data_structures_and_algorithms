@@ -35,7 +35,7 @@ class MinHeap:
         self.heap[index1], self.heap[index2] = self.heap[index2], self.heap[index1]
 
     def get_parent(self, index):
-        return (index - 2) // 2
+        return (index - 1) // 2
 
     def heapify(self, array):
         self.heap = []
@@ -47,9 +47,18 @@ class MinHeap:
             self.insert(item)
 
     def pop(self):
+        if self.is_empty():
+            return None
+
         root = self.heap.pop(0)
         self.heapify(self.heap)
         return root
+
+    def size(self):
+        return len(self.heap)
+
+    def is_empty(self):
+        return self.size() == 0
 
     def __repr__(self):
         return str(self.heap)
@@ -62,14 +71,42 @@ def huffman_encoding(data):
         node = frequencies.setdefault(char, Node(char))
         node.frequency += 1
 
-    minHeap = MinHeap(list(frequencies.values()))
+    min_heap = MinHeap(list(frequencies.values()))
+
+    # TODO outsource the creation of the huffman tree
+    huffman_tree = None
+
+    if min_heap.size() == 1:
+        huffman_tree = min_heap.pop()
+
+    elif min_heap.size() > 1:
+
+        while not min_heap.is_empty():
+            node1 = min_heap.pop()
+            node2 = min_heap.pop()
+            new_node = Node(char=None, frequency=(node1.frequency + node2.frequency))
+            new_node.left = node1
+            new_node.right = node2
+
+            if min_heap.is_empty():
+                huffman_tree = new_node
+            else:
+                min_heap.insert(new_node)
+
+    # TODO Create a map of each letter and its encoding by traversing above huffman tree
+    encoding_map = {}
+
+    # TODO Encode the input data using above encoding_map
+    encoded = "0"
+
+    return encoded, huffman_tree
 
 
 def huffman_decoding(data, tree):
     pass
 
 
-if __name__ == "__maien__":
+if __name__ == "__main__":
     codes = {}
 
     a_great_sentence = "The bird is the word"
@@ -106,7 +143,7 @@ print(myheap)
 print(myheap.pop())
 print(myheap)
 
-
+# TODO this test is no longer needed, since we are not using python methods for the heap
 myheap = [40, 30, 20, 10]
 heapify(myheap)
 print(myheap)
@@ -119,5 +156,6 @@ print(myheap)
 print(heappop(myheap))
 print(myheap)
 # Test Case 2
+# TODO test the huffmann tree is created correctly
 
 # Test Case 3
