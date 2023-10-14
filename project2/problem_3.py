@@ -38,6 +38,7 @@ class MinHeap:
     def get_parent(self, index):
         return (index - 1) // 2
 
+    # TODO make heapify more efficient
     def heapify(self, array):
         self.heap = []
 
@@ -66,13 +67,13 @@ class MinHeap:
 
 
 def huffman_encoding(data):
-    frequencies = {}
+    nodes = {}
 
     for char in data:
-        node = frequencies.setdefault(char, Node(char))
+        node = nodes.setdefault(char, Node(char))
         node.frequency += 1
 
-    min_heap = MinHeap(list(frequencies.values()))
+    min_heap = MinHeap(list(nodes.values()))
 
     huffman_tree = create_huffmann_tree(min_heap)
 
@@ -80,7 +81,7 @@ def huffman_encoding(data):
 
     encoded = ""
     for char in data:
-        encoded += frequencies[char].encoding
+        encoded += nodes[char].encoding
 
     return encoded, huffman_tree
 
