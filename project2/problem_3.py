@@ -6,6 +6,7 @@ class Node:
     def __init__(self, char=None, frequency=0):
         self.char = char
         self.frequency = frequency
+        self.encoding = None
         self.left = None
         self.right = None
 
@@ -73,7 +74,30 @@ def huffman_encoding(data):
 
     min_heap = MinHeap(list(frequencies.values()))
 
-    # TODO outsource the creation of the huffman tree
+    huffman_tree = create_huffmann_tree(min_heap)
+
+    traverse(huffman_tree)
+
+    encoded = ""
+    for char in data:
+        encoded += frequencies[char].encoding
+
+    return encoded, huffman_tree
+
+
+def traverse(node, encoding=""):
+
+    if node.left:
+        traverse(node.left, encoding + "0")
+
+    if node.right:
+        traverse(node.right, encoding + "1")
+
+    if node.char:
+        node.encoding = encoding
+
+
+def create_huffmann_tree(min_heap):
     huffman_tree = None
 
     if min_heap.size() == 1:
@@ -93,17 +117,24 @@ def huffman_encoding(data):
             else:
                 min_heap.insert(new_node)
 
-    # TODO Create a map of each letter and its encoding by traversing above huffman tree
-    encoding_map = {}
-
-    # TODO Encode the input data using above encoding_map
-    encoded = "0"
-
-    return encoded, huffman_tree
+    return huffman_tree
 
 
 def huffman_decoding(data, tree):
-    pass
+    decoded = ""
+
+    node = tree
+    for bit in data:
+        if bit == "0":
+            node = node.left
+        elif bit == "1":
+            node = node.right
+
+        if node.char:
+            decoded += node.char
+            node = tree
+
+    return decoded
 
 
 if __name__ == "__main__":
