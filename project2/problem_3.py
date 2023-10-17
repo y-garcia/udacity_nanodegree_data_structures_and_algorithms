@@ -1,5 +1,5 @@
 import sys
-from heapq import heapify, heappop, heappush
+from heapq import heapify, heappop
 
 
 class Node:
@@ -16,15 +16,17 @@ class Node:
 
 class MinHeap:
     def __init__(self, nodes=None):
-        self.heap = None
-        self.heapify(nodes)
+        self.heap = [] if nodes is None else nodes
+        self.heapify_down()
 
     def insert(self, node):
         self.heap.append(node)
+        self.heapify_up()
 
+    def heapify_up(self):
         index = len(self.heap) - 1
         while index > 0:
-            parent_index = self.get_parent(index)
+            parent_index = (index - 1) // 2
 
             if self.heap[parent_index].frequency >= self.heap[index].frequency:
                 self.swap(parent_index, index)
@@ -35,25 +37,35 @@ class MinHeap:
     def swap(self, index1, index2):
         self.heap[index1], self.heap[index2] = self.heap[index2], self.heap[index1]
 
-    def get_parent(self, index):
-        return (index - 1) // 2
+    def heapify_down(self, index=0):
+        smallest_index = index
+        left_index = index * 2 + 1
+        right_index = index * 2 + 2
 
-    # TODO make heapify more efficient
-    def heapify(self, array):
-        self.heap = []
+        smallest = self.heap[smallest_index] if smallest_index < self.size() else None
+        left = self.heap[left_index] if left_index < self.size() else None
+        right = self.heap[right_index] if right_index < self.size() else None
 
-        if array is None:
-            return
+        if smallest and left and smallest.frequency > left.frequency:
+            smallest_index = left_index
 
-        for item in array:
-            self.insert(item)
+        if smallest and right and smallest.frequency > right.frequency:
+            smallest_index = right_index
+
+        if index != smallest_index:
+            self.swap(index, smallest_index)
+
+        if left:
+            self.heapify_down(left_index)
+        if right:
+            self.heapify_down(right_index)
 
     def pop(self):
         if self.is_empty():
             return None
 
         root = self.heap.pop(0)
-        self.heapify(self.heap)
+        self.heapify_down()
         return root
 
     def size(self):
