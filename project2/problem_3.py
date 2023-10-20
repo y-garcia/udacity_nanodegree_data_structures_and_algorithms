@@ -1,5 +1,4 @@
 import sys
-from heapq import heapify, heappop
 
 
 class Node:
@@ -11,13 +10,13 @@ class Node:
         self.right = None
 
     def __repr__(self):
-        return f"({self.char}, {self.frequency})"
+        return f"({self.char}, {self.frequency}, {self.encoding})"
 
 
 class MinHeap:
     def __init__(self, nodes=None):
         self.heap = [] if nodes is None else nodes
-        self.heapify_down()
+        self.heapify()
 
     def insert(self, node):
         self.heap.append(node)
@@ -38,27 +37,37 @@ class MinHeap:
         self.heap[index1], self.heap[index2] = self.heap[index2], self.heap[index1]
 
     def heapify_down(self, index=0):
+        if index < 0 or index >= self.size():
+            return
+
         smallest_index = index
         left_index = index * 2 + 1
         right_index = index * 2 + 2
 
-        smallest = self.heap[smallest_index] if smallest_index < self.size() else None
-        left = self.heap[left_index] if left_index < self.size() else None
-        right = self.heap[right_index] if right_index < self.size() else None
+        smallest = self.get(smallest_index)
+        left = self.get(left_index)
+        right = self.get(right_index)
 
-        if smallest and left and smallest.frequency > left.frequency:
+        if smallest and left and smallest.frequency >= left.frequency:
             smallest_index = left_index
+            smallest = self.get(smallest_index)
 
-        if smallest and right and smallest.frequency > right.frequency:
+        if smallest and right and smallest.frequency >= right.frequency:
             smallest_index = right_index
 
         if index != smallest_index:
             self.swap(index, smallest_index)
+            self.heapify_down(smallest_index)
 
-        if left:
-            self.heapify_down(left_index)
-        if right:
-            self.heapify_down(right_index)
+    def heapify(self):
+        for i in range(self.size() - 1, -1, -1):
+            self.heapify_down(i)
+
+    def get(self, index):
+        if index < 0 or index >= self.size():
+            return None
+
+        return self.heap[index]
 
     def pop(self):
         if self.is_empty():
@@ -79,6 +88,12 @@ class MinHeap:
 
 
 def huffman_encoding(data):
+    if data is None:
+        return None, None
+
+    if len(data) == 0:
+        return "", None
+
     nodes = {}
 
     for char in data:
@@ -99,7 +114,6 @@ def huffman_encoding(data):
 
 
 def traverse(node, encoding=""):
-
     if node.left:
         traverse(node.left, encoding + "0")
 
@@ -134,6 +148,15 @@ def create_huffmann_tree(min_heap):
 
 
 def huffman_decoding(data, tree):
+    if data is None:
+        return None
+
+    if len(data) == 0:
+        return ""
+
+    if tree is None:
+        return None
+
     decoded = ""
 
     node = tree
@@ -172,34 +195,66 @@ if __name__ == "__main__":
 # and two of them must include edge cases, such as null, empty or very large values
 
 # Test Case 1
-myheap = MinHeap()
-myheap.insert(Node("a", 40))
-myheap.insert(Node("b", 30))
-myheap.insert(Node("c", 20))
-myheap.insert(Node("d", 10))
-print(myheap)
-print(myheap.pop())
-print(myheap)
-print(myheap.pop())
-print(myheap)
-print(myheap.pop())
-print(myheap)
-print(myheap.pop())
-print(myheap)
+print("1. Test correct sorting of MinHeap")
+test_heap = MinHeap([
+    Node("A", 40),
+    Node("B", 30),
+    Node("C", 20),
+    Node("D", 10)
+])
+assert test_heap.pop().frequency == 10
+assert test_heap.pop().frequency == 20
+assert test_heap.pop().frequency == 30
+assert test_heap.pop().frequency == 40
 
-# TODO this test is no longer needed, since we are not using python methods for the heap
-myheap = [40, 30, 20, 10]
-heapify(myheap)
-print(myheap)
-print(heappop(myheap))
-print(myheap)
-print(heappop(myheap))
-print(myheap)
-print(heappop(myheap))
-print(myheap)
-print(heappop(myheap))
-print(myheap)
 # Test Case 2
-# TODO test the huffmann tree is created correctly
+print("2. Test correct creation of Huffmann tree")
+test_heap = MinHeap([
+    Node("A", 7),
+    Node("B", 3),
+    Node("C", 7),
+    Node("D", 2),
+    Node("E", 6)
+])
+
+test_tree = create_huffmann_tree(test_heap)
+
+assert test_tree.frequency == 25
+assert test_tree.left.frequency == 11
+assert test_tree.right.frequency == 14
+assert test_tree.left.left.frequency == 5
+assert test_tree.left.right.frequency == 6 and test_tree.left.right.char == "E"
+assert test_tree.right.left.frequency == 7 and test_tree.right.left.char == "A"
+assert test_tree.right.right.frequency == 7 and test_tree.right.right.char == "C"
+assert test_tree.left.left.left.frequency == 2 and test_tree.left.left.left.char == "D"
+assert test_tree.left.left.right.frequency == 3 and test_tree.left.left.right.char == "B"
 
 # Test Case 3
+print("3. Test correct huffman encoding (also for null or empty input)")
+test_data, test_tree = huffman_encoding(None)
+assert test_data is None
+assert test_tree is None
+
+test_data, test_tree = huffman_encoding("")
+assert test_data == ""
+assert test_tree is None
+
+test_data, test_tree = huffman_encoding("AAAAAAABBBCCCCCCCDDEEEEEE")
+assert test_data == "1010101010101000100100111111111111111000000010101010101"
+
+print("4. Test correct huffman decoding (also for null or empty input)")
+
+test_data = huffman_decoding("", test_tree)
+assert test_data == ""
+
+test_data = huffman_decoding("", None)
+assert test_data == ""
+
+test_data = huffman_decoding(None, test_tree)
+assert test_data is None
+
+test_data = huffman_decoding("1010", None)
+assert test_data is None
+
+test_data = huffman_decoding("1010101010101000100100111111111111111000000010101010101", test_tree)
+assert test_data == "AAAAAAABBBCCCCCCCDDEEEEEE"
