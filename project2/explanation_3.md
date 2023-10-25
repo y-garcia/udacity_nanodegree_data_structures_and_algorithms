@@ -18,7 +18,16 @@ string and it jumps back up to the root of the Huffman tree to decode the next c
 
 # Time complexity
 ## `huffman_encoding`
-1. Iterating through the string of data to count the frequency of its characters takes `O(n)`
-2. TODO continue here
+In this case we assume the worst case: each character in the input string is unique.
+1. Iterating through the string of data to count the frequency of its characters takes `O(n)`.
+2. Creating a Min Heap consists of running the `heapify` function, which swaps each node with 
+   its children if it's greater, starting from the root and down the height of the tree
+   (`O(log n)`). This process is repeated for every element in the heap (`n`). So the overall
+   complexity of this step is `O (n log n)`.
+3. For the creation of the Huffmann tree, we iterate through all elements in the Min Heap,
+   setting its left and right node in the process. This takes hence `O(n)`.
+4. Traversing the complete Huffmann tree also takes `O(n)`, since each node is visited only once.
+5. Iterating through the string of data to encode each character by its bit representation
+   takes `O(n)`. 
 
 # Space complexity
