@@ -28,6 +28,31 @@ In this case we assume the worst case: each character in the input string is uni
    setting its left and right node in the process. This takes hence `O(n)`.
 4. Traversing the complete Huffmann tree also takes `O(n)`, since each node is visited only once.
 5. Iterating through the string of data to encode each character by its bit representation
-   takes `O(n)`. 
+   takes `O(n)`.
+
+The slowest step is the second one, so it has the most impact in terms of time complexity. So
+the overall time complexity for the huffman encoding is `O(n log n)`.
+
+## `huffman_decoding`
+For decoding we iterate through each bit of the encoded string, navigating left or right through
+the huffman tree depending on the value of the current bit, until we get to the last bit. So the
+time complexity for decoding is `O(n)`, where `n` is the number of bits in the encoded string.
 
 # Space complexity
+## `huffman_encoding`
+As above, we assume also here the worst case: each character in the input string is unique.
+1. When iterating through the characters in the string, we store its frequency in a `Node`
+   object and we store that in a map, having a `Node` object per character, so the space 
+   complexity is `O(n)`
+2. TODO calculate space complexity of recursive function
+3. For the creation of the Huffmann tree, we pop 2 nodes and reinsert them as children of 
+   a new node. So we create `O(n-1)` new nodes, having `O(2n-1)` nodes in total, which corresponds
+   to a space complexity of `O(n)`.
+4. After traversing the complete Huffmann tree we store each enconding in the correspondig `Node`
+   object, this step has hence a space complexity of `O(n)`.
+5. TODO calculate space complexity of string encoding
+
+## `huffman_decoding`
+In the worst case that each bit corresponds to a character, we would have a space complexity of `O(n)`, 
+where `n` is the number of bits in the encoded string and also the number of characters in the decoded
+result.
