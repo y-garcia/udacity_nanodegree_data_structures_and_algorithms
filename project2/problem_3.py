@@ -87,32 +87,6 @@ class MinHeap:
         return str(self.heap)
 
 
-def huffman_encoding(data):
-    if data is None:
-        return None, None
-
-    if len(data) == 0:
-        return "", None
-
-    nodes = {}
-
-    for char in data:
-        node = nodes.setdefault(char, Node(char))
-        node.frequency += 1
-
-    min_heap = MinHeap(list(nodes.values()))
-
-    huffman_tree = create_huffmann_tree(min_heap)
-
-    traverse(huffman_tree)
-
-    encoded = ""
-    for char in data:
-        encoded += nodes[char].encoding
-
-    return encoded, huffman_tree
-
-
 def traverse(node, encoding=""):
     if node.left:
         traverse(node.left, encoding + "0")
@@ -145,6 +119,32 @@ def create_huffmann_tree(min_heap):
                 min_heap.insert(new_node)
 
     return huffman_tree
+
+
+def huffman_encoding(data):
+    if data is None:
+        return None, None
+
+    if len(data) == 0:
+        return "", None
+
+    nodes = {}
+
+    for char in data:
+        node = nodes.setdefault(char, Node(char))
+        node.frequency += 1
+
+    min_heap = MinHeap(list(nodes.values()))
+
+    huffman_tree = create_huffmann_tree(min_heap)
+
+    traverse(huffman_tree)
+
+    encoded = ""
+    for char in data:
+        encoded += nodes[char].encoding
+
+    return encoded, huffman_tree
 
 
 def huffman_decoding(data, tree):
@@ -195,20 +195,27 @@ if __name__ == "__main__":
 # and two of them must include edge cases, such as null, empty or very large values
 
 # Test Case 1
-print("1. Test correct sorting of MinHeap")
-test_heap = MinHeap([
+print("\n1. Test correct sorting of MinHeap")
+nodes = [
     Node("A", 40),
     Node("B", 30),
     Node("C", 20),
     Node("D", 10)
-])
+]
+print("nodes = ", nodes)
+test_heap = MinHeap(nodes)
+print("test_heap = ", test_heap)
 assert test_heap.pop().frequency == 10
+print("test_heap = ", test_heap)
 assert test_heap.pop().frequency == 20
+print("test_heap = ", test_heap)
 assert test_heap.pop().frequency == 30
+print("test_heap = ", test_heap)
 assert test_heap.pop().frequency == 40
+print("test_heap = ", test_heap)
 
 # Test Case 2
-print("2. Test correct creation of Huffmann tree")
+print("\n2. Test correct creation of Huffmann tree")
 test_heap = MinHeap([
     Node("A", 7),
     Node("B", 3),
@@ -216,6 +223,8 @@ test_heap = MinHeap([
     Node("D", 2),
     Node("E", 6)
 ])
+
+print("test_heap = ", test_heap)
 
 test_tree = create_huffmann_tree(test_heap)
 
@@ -229,32 +238,45 @@ assert test_tree.right.right.frequency == 7 and test_tree.right.right.char == "C
 assert test_tree.left.left.left.frequency == 2 and test_tree.left.left.left.char == "D"
 assert test_tree.left.left.right.frequency == 3 and test_tree.left.left.right.char == "B"
 
+# TODO pretty print tree
+print("test_tree = ", test_tree)
+
 # Test Case 3
-print("3. Test correct huffman encoding (also for null or empty input)")
+print("\n3. Test correct huffman encoding (also for null or empty input)")
 test_data, test_tree = huffman_encoding(None)
 assert test_data is None
+print(test_data, " = ", None)
 assert test_tree is None
+print(test_tree, " = ", None)
 
 test_data, test_tree = huffman_encoding("")
 assert test_data == ""
+print('"'+test_data+'"', ' = ', '""')
 assert test_tree is None
+print(test_tree, " = ", None)
 
 test_data, test_tree = huffman_encoding("AAAAAAABBBCCCCCCCDDEEEEEE")
 assert test_data == "1010101010101000100100111111111111111000000010101010101"
+print(test_data, " = ", "1010101010101000100100111111111111111000000010101010101")
 
-print("4. Test correct huffman decoding (also for null or empty input)")
+print("\n4. Test correct huffman decoding (also for null or empty input)")
 
 test_data = huffman_decoding("", test_tree)
 assert test_data == ""
+print('"'+test_data+'"', ' = ', '""')
 
 test_data = huffman_decoding("", None)
 assert test_data == ""
+print('"'+test_data+'"', ' = ', '""')
 
 test_data = huffman_decoding(None, test_tree)
 assert test_data is None
+print(test_data, ' = ', None)
 
 test_data = huffman_decoding("1010", None)
 assert test_data is None
+print(test_data, ' = ', None)
 
 test_data = huffman_decoding("1010101010101000100100111111111111111000000010101010101", test_tree)
 assert test_data == "AAAAAAABBBCCCCCCCDDEEEEEE"
+print(test_data, ' = ', "AAAAAAABBBCCCCCCCDDEEEEEE")
