@@ -54,7 +54,7 @@ As above, we assume also here the worst case: each character in the input string
 5. Assuming each character gets encoded to one bit, we create an encoded string in this step
    that is at least as big as the input string, so the space complexity for this step is `O(n)`
 
-TODO overall space complexity
+So one can conclude that the overall space complexity is `O(n)`
 
 ## `huffman_decoding`
 In the worst case that each bit corresponds to a character, we would have a space complexity of `O(n)`, 

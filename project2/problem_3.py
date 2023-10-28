@@ -10,7 +10,14 @@ class Node:
         self.right = None
 
     def __repr__(self):
-        return f"({self.char}, {self.frequency}, {self.encoding})"
+        attributes = []
+        if self.char is not None:
+            attributes.append(self.char)
+        if self.frequency is not None:
+            attributes.append(str(self.frequency))
+        if self.encoding is not None:
+            attributes.append(self.encoding)
+        return "(" + ', '.join(attributes) + ")"
 
 
 class MinHeap:
@@ -96,6 +103,13 @@ def traverse(node, encoding=""):
 
     if node.char:
         node.encoding = encoding
+
+
+def print_tree(node, level=0):
+    if node is not None:
+        print("  " * level + str(node))
+        print_tree(node.left, level + 1)
+        print_tree(node.right, level + 1)
 
 
 def create_huffmann_tree(min_heap):
@@ -196,14 +210,14 @@ if __name__ == "__main__":
 
 # Test Case 1
 print("\n1. Test correct sorting of MinHeap")
-nodes = [
+test_nodes = [
     Node("A", 40),
     Node("B", 30),
     Node("C", 20),
     Node("D", 10)
 ]
-print("nodes = ", nodes)
-test_heap = MinHeap(nodes)
+print("nodes = ", test_nodes)
+test_heap = MinHeap(test_nodes)
 print("test_heap = ", test_heap)
 assert test_heap.pop().frequency == 10
 print("test_heap = ", test_heap)
@@ -238,8 +252,8 @@ assert test_tree.right.right.frequency == 7 and test_tree.right.right.char == "C
 assert test_tree.left.left.left.frequency == 2 and test_tree.left.left.left.char == "D"
 assert test_tree.left.left.right.frequency == 3 and test_tree.left.left.right.char == "B"
 
-# TODO pretty print tree
-print("test_tree = ", test_tree)
+print("test_tree = ")
+print_tree(test_tree)
 
 # Test Case 3
 print("\n3. Test correct huffman encoding (also for null or empty input)")
