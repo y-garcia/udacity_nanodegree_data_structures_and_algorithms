@@ -6,7 +6,7 @@ class Block:
 
     def __init__(self, timestamp, data, previous_hash="0"):
         if timestamp is None or data is None or previous_hash is None:
-            raise Exception("timestamp, data and previous_hash MUST NOT be None")
+            raise ValueError("timestamp, data and previous_hash MUST NOT be None")
 
         self.timestamp = timestamp
         self.data = data
@@ -82,12 +82,14 @@ class Blockchain:
 # and two of them must include edge cases, such as null, empty or very large values
 
 # Test Case 1
+print("\n" + "_"*90)
 print("\n1. Test Blockchain creation, length and validity")
 blockchain = Blockchain()
 blockchain.append("block 0")
 blockchain.append("block 1")
 blockchain.append("block 2")
 
+print()
 print(blockchain)
 
 assert blockchain.length() == 3
@@ -105,6 +107,7 @@ assert blockchain.is_valid() is False
 print("\nAbove blockchain is invalid due to corrupted block 2")
 
 # Test Case 2
+print("\n" + "_"*90)
 print("\n2. Test Block creation and hash calculation")
 block = Block(timestamp=datetime(2023, 11, 1, 15, 00, 00), data="test", previous_hash="0")
 
@@ -120,4 +123,33 @@ assert block.hash == "3d3fa9b37eaa8b41bea3ed874331a04147b0f4cdcf4b6ab5653b69e5c2
 print("Creation and hash calculation were successful")
 
 # Test Case 3
-# TODO test creation of block and blockchain with null values
+print("\n" + "_"*90)
+print("\n3. Test Block creation with null values")
+print("\nCreating Block with timestamp=None...")
+try:
+    block = Block(timestamp=None, data="test", previous_hash="0")
+except ValueError:
+    print("ValueError exception thrown, as expected")
+
+print("\nCreating Block with data=None...")
+try:
+    block = Block(timestamp=datetime(2023, 11, 1, 15, 00, 00), data=None, previous_hash="0")
+except ValueError:
+    print("ValueError exception thrown, as expected")
+
+print("\nCreating Block with previous_hash=None...")
+try:
+    block = Block(timestamp=datetime(2023, 11, 1, 15, 00, 00), data="test", previous_hash=None)
+except ValueError:
+    print("ValueError exception thrown, as expected")
+
+# Test Case 4
+print("\n" + "_"*90)
+print("\n4. Test appending null values to Blockchain")
+
+print("\nTrying blockchain.append(None)...")
+try:
+    blockchain = Blockchain()
+    blockchain.append(None)
+except ValueError:
+    print("ValueError exception thrown, as expected")
