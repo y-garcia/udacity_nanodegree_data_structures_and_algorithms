@@ -42,6 +42,11 @@ class LinkedList:
 
 
 def union(llist_1, llist_2):
+    if llist_1 is None:
+        llist_1 = LinkedList()
+    if llist_2 is None:
+        llist_2 = LinkedList()
+
     result = LinkedList()
 
     node = llist_1.head
@@ -58,6 +63,11 @@ def union(llist_1, llist_2):
 
 
 def union_distinct(llist_1, llist_2):
+    if llist_1 is None:
+        llist_1 = LinkedList()
+    if llist_2 is None:
+        llist_2 = LinkedList()
+
     result = LinkedList()
     values = set()
 
@@ -79,6 +89,11 @@ def union_distinct(llist_1, llist_2):
 
 
 def intersection(llist_1, llist_2):
+    if llist_1 is None:
+        llist_1 = LinkedList()
+    if llist_2 is None:
+        llist_2 = LinkedList()
+
     result = LinkedList()
     values1 = set()
     values2 = set()
@@ -99,19 +114,25 @@ def intersection(llist_1, llist_2):
 
 
 def print_test_case_result(elements_1, elements_2):
-    linked_list_1 = LinkedList()
-    linked_list_2 = LinkedList()
+    if elements_1 is None:
+        linked_list_1 = None
+    else:
+        linked_list_1 = LinkedList()
+        for i in elements_1:
+            linked_list_1.append(i)
 
-    for i in elements_1:
-        linked_list_1.append(i)
-
-    for i in elements_2:
-        linked_list_2.append(i)
+    if elements_2 is None:
+        linked_list_2 = None
+    else:
+        linked_list_2 = LinkedList()
+        for i in elements_2:
+            linked_list_2.append(i)
 
     union_result = union(linked_list_1, linked_list_2)
     union_distinct_result = union_distinct(linked_list_1, linked_list_2)
     intersection_result = intersection(linked_list_1, linked_list_2)
 
+    print()
     print("linked_list_1    =", linked_list_1)
     print("linked_list_2    =", linked_list_2)
     print()
@@ -123,7 +144,7 @@ def print_test_case_result(elements_1, elements_2):
 
 
 # Test case 1
-print("\n1. Test main functionality of union and intersection\n")
+print("\n1. Test main functionality of union and intersection")
 union_result, union_distinct_result, intersection_result = print_test_case_result(
     [3, 2, 4, 35, 6, 65, 6, 4, 3, 21],
     [6, 32, 4, 9, 6, 1, 11, 21, 1]
@@ -135,7 +156,7 @@ assert union_distinct_result == "3 -> 2 -> 4 -> 35 -> 6 -> 65 -> 21 -> 32 -> 9 -
 assert intersection_result == "4 -> 6 -> 21 -> "
 
 # Test case 2
-print("\n2. Test for empty intersection\n")
+print("\n2. Test for empty intersection")
 union_result, union_distinct_result, intersection_result = print_test_case_result(
     [3, 2, 4, 35, 6, 65, 6, 4, 3, 23],
     [1, 7, 8, 9, 11, 21, 1]
@@ -149,7 +170,7 @@ assert intersection_result == ""
 # and two of them must include edge cases, such as null, empty or very large values
 
 # Test Case 1
-print("\n1. Test empty lists\n")
+print("\n1. Test empty lists")
 union_result, union_distinct_result, intersection_result = print_test_case_result(
     [],
     [1, 2, 3, 4]
@@ -159,7 +180,6 @@ assert union_result == "1 -> 2 -> 3 -> 4 -> "
 assert union_distinct_result == "1 -> 2 -> 3 -> 4 -> "
 assert intersection_result == ""
 
-print()
 union_result, union_distinct_result, intersection_result = print_test_case_result(
     [5, 6, 7, 8],
     []
@@ -169,8 +189,66 @@ assert union_result == "5 -> 6 -> 7 -> 8 -> "
 assert union_distinct_result == "5 -> 6 -> 7 -> 8 -> "
 assert intersection_result == ""
 
+union_result, union_distinct_result, intersection_result = print_test_case_result(
+    [],
+    []
+)
+
+assert union_result == ""
+assert union_distinct_result == ""
+assert intersection_result == ""
+
 # Test Case 2
+print("\n2. Test None lists")
 # TODO test distinct with intersection
 
+union_result, union_distinct_result, intersection_result = print_test_case_result(
+    None,
+    [1, 2, 3]
+)
+
+assert union_result == "1 -> 2 -> 3 -> "
+assert union_distinct_result == "1 -> 2 -> 3 -> "
+assert intersection_result == ""
+
+union_result, union_distinct_result, intersection_result = print_test_case_result(
+    [4, 5, 6],
+    None
+)
+
+assert union_result == "4 -> 5 -> 6 -> "
+assert union_distinct_result == "4 -> 5 -> 6 -> "
+assert intersection_result == ""
+
+union_result, union_distinct_result, intersection_result = print_test_case_result(
+    None,
+    None
+)
+
+assert union_result == ""
+assert union_distinct_result == ""
+assert intersection_result == ""
+
 # Test Case 3
-# TODO test distinct without intersection
+print("\n3. Test lists with the same values and no intersection")
+
+union_result, union_distinct_result, intersection_result = print_test_case_result(
+    [1, 1, 1],
+    [2, 2, 2]
+)
+
+assert union_result == "1 -> 1 -> 1 -> 2 -> 2 -> 2 -> "
+assert union_distinct_result == "1 -> 2 -> "
+assert intersection_result == ""
+
+# Test Case 4
+print("\n4. Test lists with the same values and intersection")
+
+union_result, union_distinct_result, intersection_result = print_test_case_result(
+    [1, 1, 2],
+    [2, 3, 3]
+)
+
+assert union_result == "1 -> 1 -> 2 -> 2 -> 3 -> 3 -> "
+assert union_distinct_result == "1 -> 2 -> 3 -> "
+assert intersection_result == "2 -> "
