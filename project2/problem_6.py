@@ -200,7 +200,6 @@ assert intersection_result == ""
 
 # Test Case 2
 print("\n2. Test None lists")
-# TODO test distinct with intersection
 
 union_result, union_distinct_result, intersection_result = print_test_case_result(
     None,
