@@ -1,6 +1,7 @@
 # Explanation for Problem 6: Union and Intersection
 
 # Overall approach
+
 I used the suggested implementation for `Node` and `LinkedList`. I then implemented following 3 functions:
 - `union(linkedlist1, linkedlist2)`: This function just iterates through both LinkedLists and creates a new one with
   the same values as both.
@@ -50,9 +51,11 @@ Iterating through the first LinkedList and checking both internal sets for exist
 In the following examples we also assume that both LinkedLists contain `n` nodes
 
 ## union(linkedlist1, linkedlist2)
+
 We have two input LinkedLists, and we create a new one, so the space complexity is `O(3*n) = O(n)`.
 
 ## union_distinct(linkedlist1, linkedlist2)
+
 Here we assume the worst case: all values are different in both lists.
 
 Here we have two input LinkedLists, and we create a new one, as above.
@@ -61,6 +64,7 @@ In addition to that we keep track of common values in an internal, which can con
 so the overall space complexity is `O(5*n) = O(n)`.
 
 ## intersection(linkedlist1, linkedlist2)
+
 **Case 1**: we assume all values are different in both lists and the intersection is empty.
 
 We have two input LinkedLists, we add all values to internal sets, and the result LinkedList is empty, so the

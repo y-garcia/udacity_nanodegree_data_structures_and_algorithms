@@ -1,12 +1,14 @@
 # Explanation for Problem 4: Active Directory
 
-# Overall approach
+## Overall approach
+
 I use a recursive function to walk through all groups in search of the desired username.
 First I check if the user is in the current group, by looking for the name in the `users` list.
 If not, I iterate through all subgroups and run the same function recursively for each group,
 returning `True` if it is found in any of the subgroups. Otherwise, `False` is returned.
 
-# Time complexity
+## Time complexity
+
 - Let `T(n)` be the time it takes to run `is_user_in_group(user, group)` for a particular group.
 - Let `g` be the number of subgroups in that group. 
 - Let `u` be the number of users in that group.
@@ -36,7 +38,8 @@ So for `n` levels we would have:
 
 So the overall time complexity would be `O(g^n)`.
 
-# Space complexity
+## Space complexity
+
 We really only store the return value whilst walking through the different groups. So we can assume
 `O(1)` for each recursion.
 - Let `T(n)` be the space needed for `is_user_in_group(user, group)` for a particular group.
