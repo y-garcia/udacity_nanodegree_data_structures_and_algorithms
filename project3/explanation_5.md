@@ -15,22 +15,23 @@ each recursion, and adding complete suffixes to the `result` parameter if I enco
 In that case, the time complexity for each recursion would be:
 
 $$
-T(n) = k T(n-1) + c
-T(n-1) = k T(n-2) + c
-.
-.
-.
-T(1) = k T(0) + c
-T(0) = c
+\begin{align}
+& T(n) &&= k \cdot T(n-1) + c \\
+& T(n-1) &&= k \cdot T(n-2) + c \\
+& \vdots \\
+& T(1) &&= k \cdot T(0) + c \\
+& T(0) &&= c
+\end{align}
 $$
 
 For 3 levels this would mean:
 
-$T(3) = k * (k * (k * (c) + c) + c) + c = ck^3 + ck^2 + ck + c$
-
-So for $n$ levels we would have:
-
-$T(n) = ck^n + ck^(n-1) + ... + ck^2 + ck + c$
+$$
+\begin{align}
+& T(3) &&= k * (k * (k * (c) + c) + c) + c \\
+& &&= ck^3 + ck^2 + ck + c
+\end{align}
+$$
 
 So the overall **time complexity** would be $O(k^n)$.
 
