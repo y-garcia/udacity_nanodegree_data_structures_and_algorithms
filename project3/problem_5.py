@@ -58,17 +58,14 @@ for word in wordList:
 
 
 def print_suffixes(prefix):
-    if prefix != '':
-        prefix_node = MyTrie.find(prefix)
-        if prefix_node:
-            print(prefix, "=>", prefix_node.suffixes())
-        else:
-            print(prefix + " not found")
+    prefix_node = MyTrie.find(prefix)
+    if prefix_node:
+        print(f"'{prefix}' =>", prefix_node.suffixes())
     else:
-        print('')
+        print(f"'{prefix}' not found")
 
 
-prefixes = ['a', 'an', 'ant', 'f', 'fu', 'fun', 't', 'tr', 'tri', 'trie', 'x']
+prefixes = ['a', 'an', 'ant', 'f', 'fu', 'fun', 't', 'tr', 'tri', 'trie', 'x', '']
 
 for prefix in prefixes:
     print_suffixes(prefix)
