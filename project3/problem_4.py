@@ -46,4 +46,9 @@ test_cases = [
 ]
 
 for test_case in test_cases:
-    test_function(test_case)
+    input_value = test_case
+    #TODO print input_value before sorting
+    expected = sorted(input_value)
+    result = sort_012(input_value)
+    print(f"sort_012({input_value}) = {result} |",
+          "Pass" if sum(result) == sum(expected) else f"Fail! '{expected}' expected")

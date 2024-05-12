@@ -7,7 +7,7 @@ def sqrt(number):
     Returns:
        int: Floored Square Root
     """
-    if number != int(number) or number < 0:
+    if number is None or number != int(number) or number < 0:
         print("Only positive integer numbers allowed")
         return None
 
@@ -37,8 +37,11 @@ test_cases = [
     (27, 5),
     (-9, None),
     (4.5, None),
+    (None, None)
 ]
+
 for test_case in test_cases:
-    number, expected = test_case
-    result = sqrt(number)
-    print(f"Testing sqrt({number}) = {result} \t", "Pass" if (result == expected) else f"Fail: actual = {result}, expected = {expected}")
+    input_value, expected = test_case
+    result = sqrt(input_value)
+    print(f"sqrt('{input_value}') = '{result}' |",
+          "Pass" if result == expected else f"Fail! '{expected}' expected")

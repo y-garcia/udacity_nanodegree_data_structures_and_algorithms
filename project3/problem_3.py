@@ -7,6 +7,9 @@ def rearrange_digits(input_list):
     Returns:
        (int),(int): Two maximum sums
     """
+    if input_list is None or len(input_list) == 0:
+        return []
+
     sorted_list = merge_sort(input_list, 0, len(input_list) - 1)
 
     return get_numbers(sorted_list)
@@ -61,21 +64,16 @@ def get_numbers(sorted_list):
     return [number1, number2]
 
 
-def test_function(test_case):
-    case, solution = test_case
-    output = rearrange_digits(case)
-    print(output)
-    if sum(output) == sum(solution):
-        print("Pass")
-    else:
-        print("Fail")
-
-
 test_cases = [
     ([1, 2, 3, 4, 5], [542, 31]),
     ([4, 6, 2, 5, 9, 8], [964, 852]),
-    ([4, 6, 0, 5, 9, 8], [964, 850])
+    ([4, 6, 0, 5, 9, 8], [964, 850]),
+    ([], []),
+    (None, [])
 ]
 
 for test_case in test_cases:
-    test_function(test_case)
+    input_value, expected = test_case
+    result = rearrange_digits(input_value)
+    print(f"rearrange_digits('{input_value}') = '{result}' |",
+          "Pass" if sum(result) == sum(expected) else f"Fail! '{expected}' expected")

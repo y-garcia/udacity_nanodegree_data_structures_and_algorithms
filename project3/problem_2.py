@@ -66,39 +66,40 @@ def linear_search(input_list, number):
     return -1
 
 
-def test_function(test_case):
-    input_list = test_case[0]
-    number = test_case[1]
-    if linear_search(input_list, number) == rotated_array_search(input_list, number):
-        print("Pass")
-    else:
-        print("Fail")
+test_cases = [
+    ([6, 7, 8, 9, 10, 1, 2, 3, 4], 6),
+    ([6, 7, 8, 9, 10, 1, 2, 3, 4], 1),
+    ([6, 7, 8, 1, 2, 3, 4], 8),
+    ([6, 7, 8, 1, 2, 3, 4], 1),
+    ([6, 7, 8, 1, 2, 3, 4], 10),
 
+    ([6, 7, 8, 1, 2, 3, 4], 0),
+    ([6, 7, 8, 1, 2, 3, 4], 1),
+    ([6, 7, 8, 1, 2, 3, 4], 2),
+    ([6, 7, 8, 1, 2, 3, 4], 3),
+    ([6, 7, 8, 1, 2, 3, 4], 4),
+    ([6, 7, 8, 1, 2, 3, 4], 5),
+    ([6, 7, 8, 1, 2, 3, 4], 6),
+    ([6, 7, 8, 1, 2, 3, 4], 7),
+    ([6, 7, 8, 1, 2, 3, 4], 8),
+    ([6, 7, 8, 1, 2, 3, 4], 9),
 
-test_function([[6, 7, 8, 9, 10, 1, 2, 3, 4], 6])
-test_function([[6, 7, 8, 9, 10, 1, 2, 3, 4], 1])
-test_function([[6, 7, 8, 1, 2, 3, 4], 8])
-test_function([[6, 7, 8, 1, 2, 3, 4], 1])
-test_function([[6, 7, 8, 1, 2, 3, 4], 10])
+    ([1, 2, 3, 4, 6, 7, 8], 0),
+    ([1, 2, 3, 4, 6, 7, 8], 1),
+    ([1, 2, 3, 4, 6, 7, 8], 2),
+    ([1, 2, 3, 4, 6, 7, 8], 3),
+    ([1, 2, 3, 4, 6, 7, 8], 4),
+    ([1, 2, 3, 4, 6, 7, 8], 5),
+    ([1, 2, 3, 4, 6, 7, 8], 6),
+    ([1, 2, 3, 4, 6, 7, 8], 7),
+    ([1, 2, 3, 4, 6, 7, 8], 8),
+    ([1, 2, 3, 4, 6, 7, 8], 9),
 
-test_function([[6, 7, 8, 1, 2, 3, 4], 0])
-test_function([[6, 7, 8, 1, 2, 3, 4], 1])
-test_function([[6, 7, 8, 1, 2, 3, 4], 2])
-test_function([[6, 7, 8, 1, 2, 3, 4], 3])
-test_function([[6, 7, 8, 1, 2, 3, 4], 4])
-test_function([[6, 7, 8, 1, 2, 3, 4], 5])
-test_function([[6, 7, 8, 1, 2, 3, 4], 6])
-test_function([[6, 7, 8, 1, 2, 3, 4], 7])
-test_function([[6, 7, 8, 1, 2, 3, 4], 8])
-test_function([[6, 7, 8, 1, 2, 3, 4], 9])
+    ([], 5)
+]
 
-test_function([[1, 2, 3, 4, 6, 7, 8], 0])
-test_function([[1, 2, 3, 4, 6, 7, 8], 1])
-test_function([[1, 2, 3, 4, 6, 7, 8], 2])
-test_function([[1, 2, 3, 4, 6, 7, 8], 3])
-test_function([[1, 2, 3, 4, 6, 7, 8], 4])
-test_function([[1, 2, 3, 4, 6, 7, 8], 5])
-test_function([[1, 2, 3, 4, 6, 7, 8], 6])
-test_function([[1, 2, 3, 4, 6, 7, 8], 7])
-test_function([[1, 2, 3, 4, 6, 7, 8], 8])
-test_function([[1, 2, 3, 4, 6, 7, 8], 9])
+for test_case in test_cases:
+    input_list, input_number = test_case
+    expected = linear_search(input_list, input_number)
+    result = rotated_array_search(input_list, input_number)
+    print(f"Search for {input_number} in {input_list} = {result} |", "Pass" if result == expected else "Fail")
