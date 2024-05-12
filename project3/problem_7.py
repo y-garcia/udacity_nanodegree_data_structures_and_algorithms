@@ -3,9 +3,9 @@ class RouteTrie:
     def __init__(self, root_handler):
         self.root = RouteTrieNode(root_handler)
 
-    def insert(self, path, handler):
+    def insert(self, segments, handler):
         node = self.root
-        for segment in path:
+        for segment in segments:
             node = node.insert(segment)
         node.handler = handler
 
@@ -24,8 +24,8 @@ class RouteTrieNode:
         self.handler = handler
         self.children = {}
 
-    def insert(self, segment, handler=None):
-        return self.children.setdefault(segment, RouteTrieNode(handler))
+    def insert(self, segment):
+        return self.children.setdefault(segment, RouteTrieNode())
 
 
 # The Router class will wrap the Trie and handle
