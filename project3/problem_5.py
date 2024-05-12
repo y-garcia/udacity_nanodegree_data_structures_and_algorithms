@@ -32,6 +32,9 @@ class Trie:
 
     def insert(self, word):
         # Add a word to the Trie
+        if word is None:
+            return
+
         node = self.root
         for char in word:
             node = node.insert(char)
@@ -40,6 +43,10 @@ class Trie:
     def find(self, prefix):
         # Find the Trie node that represents this prefix
         node = self.root
+
+        if prefix is None:
+            return node
+
         for char in prefix:
             if node is None:
                 return None
@@ -65,7 +72,9 @@ def print_suffixes(prefix):
         print(f"'{prefix}' not found")
 
 
-prefixes = ['a', 'an', 'ant', 'f', 'fu', 'fun', 't', 'tr', 'tri', 'trie', 'x', '']
+prefixes = ['a', 'an', 'ant', 'f', 'fu', 'fun', 't', 'tr', 'tri', 'trie', 'x', '', None]
 
+print("'prefix' => [suffixes]")
+print("======================")
 for prefix in prefixes:
     print_suffixes(prefix)

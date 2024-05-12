@@ -33,6 +33,7 @@ test_cases = [
 ]
 
 for test_case in test_cases:
-    input_list, expected = test_case
-    result = get_min_max(input_list)
-    print(input_list, "=>", result, "- Pass" if (expected == result) else "Fail")
+    input_value, expected = test_case
+    result = get_min_max(input_value)
+    print(f"get_min_max({input_value}) = {result} |",
+          "Pass" if result == expected else f"Fail! '{expected}' expected")

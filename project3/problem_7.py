@@ -43,7 +43,7 @@ class Router:
         return self.not_found_handler if handler is None else handler
 
     def split_path(self, path):
-        if len(path) == 0 or path == '/':
+        if path is None or len(path) == 0 or path == '/':
             return []
 
         if path[-1] == '/':
@@ -59,6 +59,7 @@ router.add_handler("/home/about", "about handler")
 test_cases = [
     ("/", "root handler"),
     ("", "root handler"),
+    (None, "root handler"),
     ("/home", "not found handler"),
     ("/home/", "not found handler"),
     ("/home/about", "about handler"),
@@ -66,10 +67,8 @@ test_cases = [
     ("/home/about/me", "not found handler"),
 ]
 
-print("\n'path' => 'handler' | Pass or Fail")
-print("===================================")
 for test_case in test_cases:
-    input_path, expected_handler = test_case
-    actual_handler = router.lookup(input_path)
-    successful = actual_handler == expected_handler
-    print(f"'{input_path}' => '{actual_handler}' |", "Pass" if successful else f"Fail! '{expected_handler}' expected")
+    input_value, expected = test_case
+    result = router.lookup(input_value)
+    print(f"router.lookup({input_value}) = '{result}' |",
+          "Pass" if result == expected else f"Fail! '{expected}' expected")
